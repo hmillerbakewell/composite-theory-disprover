@@ -2,7 +2,7 @@ package terms
 
 case class UnificationProblem(equations: Set[Equation]) {
 
-  override def toString: String = equations.mkString("unify{",",","}")
+  override def toString: String = equations.mkString("unify{", ",", "}")
 
   def delete(equation: Equation): UnificationProblem = UnificationProblem(equations - equation)
 
@@ -40,6 +40,13 @@ case class UnificationProblem(equations: Set[Equation]) {
     if (r.solved) Some(r) else None
   }
 
+  def reduceToSubstitution: Option[Substitution] = {
+    val reduced = reduce()
+    if (reduced.isEmpty) return None
+    val equations = reduced.get.equations
+    Some(Substitution(equations.map(e => e.lhs.symbol -> e.rhs).toMap))
+  }
+
   def tryReduce: UnificationProblem = {
     val eliminateOption = equations.find(_.canEliminate).map(eliminate)
     if (eliminateOption.nonEmpty && eliminateOption.get != this) {
@@ -63,9 +70,13 @@ case class UnificationProblem(equations: Set[Equation]) {
 
 case class Equation(lhs: TermTree, rhs: TermTree) {
   override def toString: String = s"$lhs ~ $rhs"
+
   lazy val canDelete: Boolean = {
     lhs == rhs
   }
+
+  def reverse: Equation = Equation(rhs, lhs)
+
   lazy val canDecompose: Boolean = {
     lhs.symbol == rhs.symbol
   }
