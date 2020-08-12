@@ -72,7 +72,7 @@ object main extends App {
         val NFs = equivalenceClassesNF(eq.get)
         if (NFs.exists(nf => nf.symbol.theory == Theory.T || nf.symbol.isVariable)) {
           println(s"${t} :: Under substitution ${sigma} yields an equivalence class with T terms ${
-            NFs
+            NFs.mkString("{",",","}")
           }")
         }
       }
