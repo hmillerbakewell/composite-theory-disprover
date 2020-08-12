@@ -59,8 +59,8 @@ class MatcherTest extends FunSuite {
       TermName(x.toString, 0, Theory.Variable)
     }).toList
 
-    val S = AlgebraicTheory.Boom(true, true, true, false)
-    val T = AlgebraicTheory.Boom(true, true, false, false)
+    val S = AlgebraicTheory.Boom(unital = true, associative = true, commutative = true, idempotent = false)
+    val T = AlgebraicTheory.Boom(true, associative = true, commutative = false, idempotent = false)
     val V = variables(4)
 
     val equations: Set[Equation] = S.labeledAxioms(Theory.S).union(T.labeledAxioms(Theory.T))

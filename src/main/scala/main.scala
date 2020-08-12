@@ -6,8 +6,8 @@ object main extends App {
     TermName(x.toString, 0, Theory.Variable)
   }).toList
 
-  val S = AlgebraicTheory.Boom(true, true, false, false)
-  val T = AlgebraicTheory.Boom(true, true, true, false)
+  val S = AlgebraicTheory.Boom(unital = true, associative = true, commutative = false, idempotent = false)
+  val T = AlgebraicTheory.Boom(unital = true, associative = true, commutative = true, idempotent = false)
   val V = variables(4)
 
   val equations: Set[Equation] = S.labeledAxioms(Theory.S).union(T.labeledAxioms(Theory.T))
